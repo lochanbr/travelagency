@@ -1,5 +1,5 @@
 import { generateObject } from 'ai'
-import { google } from '@ai-sdk/google'
+import { createGoogleGenerativeAI } from '@ai-sdk/google'
 import { z } from 'zod'
 
 const tripPlanSchema = z.object({
@@ -51,6 +51,17 @@ const tripPlanSchema = z.object({
 
 export async function POST(req: Request) {
   try {
+    const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY
+
+    if (!apiKey || apiKey === 'your_google_api_key_here') {
+      return Response.json(
+        { error: 'Please set a valid GOOGLE_GENERATIVE_AI_API_KEY in your .env.local file. Get one from https://aistudio.google.com/apikey' },
+        { status: 500 }
+      )
+    }
+
+    const google = createGoogleGenerativeAI({ apiKey })
+
     const { destination, days, budget, currency, interests } = await req.json()
 
     const systemPrompt = `You are an expert AI travel planner. Given the destination, budget, number of days, and interests, create a comprehensive travel plan. Be specific and practical with your recommendations. Tailor the itinerary to the interests provided.`
@@ -64,7 +75,7 @@ export async function POST(req: Request) {
 Create a detailed travel plan that fits within the budget and caters to the specified interests. Include specific restaurant names, attraction names, and practical tips for the destination.`
 
     const { object } = await generateObject({
-      model: google('gemini-2.5-flash'),
+      model: google('gemini-2.0-flash'),
       system: systemPrompt,
       schema: tripPlanSchema,
       prompt: userPrompt,
@@ -73,6 +84,14 @@ Create a detailed travel plan that fits within the budget and caters to the spec
     return Response.json({ tripPlan: object })
   } catch (error: any) {
     console.error("API Error:", error);
-    return Response.json({ error: error.message || String(error) }, { status: 500 });
+    
+    let errorMessage = error.message || String(error);
+    
+    // Check for the specific "limit: 0" free tier error
+    if (errorMessage.includes("limit: 0") && errorMessage.includes("free_tier")) {
+      errorMessage = "The Gemini API Free Tier is not available in your current region (this affects regions like the UK, EU, and Switzerland). To fix this, you need to either set up a billing account in Google AI Studio / Google Cloud, or use the API from a region that supports the Free Tier.";
+    }
+
+    return Response.json({ error: errorMessage }, { status: 500 });
   }
 }

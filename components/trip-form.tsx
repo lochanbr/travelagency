@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { CURRENCIES, INTERESTS, type TripFormData } from '@/lib/types'
+import { CURRENCIES, INTERESTS, ALLOWED_DESTINATIONS, type TripFormData } from '@/lib/types'
 import { Plane } from 'lucide-react'
 
 interface TripFormProps {
@@ -120,18 +120,26 @@ export function TripForm({ onSubmit, isLoading }: TripFormProps) {
         <Label htmlFor="destination" className="text-foreground">
           Destination
         </Label>
-        <Input
-          id="destination"
-          placeholder="e.g., Tokyo, Japan"
-          value={destination}
-          onChange={(e) => {
-            setDestination(e.target.value)
-            if (errors.destination) {
-              setErrors((prev) => ({ ...prev, destination: '' }))
-            }
-          }}
-          className="bg-secondary border-border text-foreground placeholder:text-muted-foreground"
-        />
+        <Select value={destination} onValueChange={(val) => {
+          setDestination(val)
+          if (errors.destination) {
+            setErrors((prev) => ({ ...prev, destination: '' }))
+          }
+        }}>
+          <SelectTrigger 
+            id="destination" 
+            className="bg-secondary border-border text-foreground"
+          >
+            <SelectValue placeholder="Select a supported destination" />
+          </SelectTrigger>
+          <SelectContent className="bg-card border-border max-h-[300px]">
+            {ALLOWED_DESTINATIONS.map((country) => (
+              <SelectItem key={country} value={country}>
+                {country}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
         {errors.destination && (
           <p className="text-sm text-red-400">{errors.destination}</p>
         )}

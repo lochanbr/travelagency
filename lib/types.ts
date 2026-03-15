@@ -135,3 +135,21 @@ export const INTERESTS = [
   { id: 'shopping', label: 'Shopping', emoji: '🛍️' },
   { id: 'nature', label: 'Nature', emoji: '🌿' },
 ]
+
+export const ALLOWED_DESTINATIONS = [
+  'Albania', 'Algeria', 'Angola', 'Argentina', 'Australia', 'Bahamas', 'Bahrain', 'Bangladesh',
+  'Barbados', 'Benin', 'Bolivia', 'Botswana', 'Brazil', 'Burundi', 'Cambodia', 'Cameroon',
+  'Cape Verde', 'Chad', 'Chile', 'Colombia', 'Costa Rica', 'Democratic Republic of the Congo',
+  'Dominican Republic', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea',
+  'Ethiopia', 'Fiji', 'Gabon', 'Gambia', 'Georgia', 'Ghana', 'Guatemala', 'Guinea',
+  'Guinea-Bissau', 'Guyana', 'Honduras', 'India', 'Indonesia', 'Iraq', 'Israel', 'Ivory Coast',
+  'Jamaica', 'Japan', 'Jordan', 'Kenya', 'Kuwait', 'Laos', 'Lebanon', 'Lesotho', 'Liberia',
+  'Libya', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Mauritania', 'Mauritius',
+  'Mexico', 'Morocco', 'Mozambique', 'Namibia', 'Nepal', 'New Zealand', 'Nicaragua', 'Niger',
+  'Nigeria', 'Oman', 'Pakistan', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru',
+  'Philippines', 'Qatar', 'Republic of the Congo', 'Rwanda', 'Sao Tome and Principe',
+  'Saudi Arabia', 'Senegal', 'Seychelles', 'Sierra Leone', 'Singapore', 'Somalia',
+  'South Africa', 'South Korea', 'Sri Lanka', 'Suriname', 'Taiwan', 'Tanzania', 'Thailand',
+  'Togo', 'Trinidad and Tobago', 'Tunisia', 'Turkey', 'Uganda', 'United Arab Emirates',
+  'United States', 'Uruguay', 'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe'
+]
